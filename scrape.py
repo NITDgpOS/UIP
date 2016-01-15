@@ -28,10 +28,10 @@ def get_images(url):
     for link in thumbnails:
         if link['href'].endswith(('jpg','png','jpeg')):
             image_links.append( link['href'])
+        if(len(image_links) == 15):
+            break
     
     for image in image_links:
-        if(len(image_links)==15):
-            break
         path=os.getcwd()+ pics_folder
         urlretrieve(image,os.path.join(path,image.split('/')[-1]))
     
