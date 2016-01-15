@@ -1,4 +1,6 @@
 import os
+
+WEBSITE="https://www.reddit.com/r/wallpapers" 
 PICS_FOLDER ='/pics'
-NUMBER_OF_IMAGES_TO_PARSE = 15
+NUMBER_OF_IMAGES_TO_PARSE = 24
 CURR_DIR = os.getcwd()

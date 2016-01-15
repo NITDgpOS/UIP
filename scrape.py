@@ -3,6 +3,7 @@ from urllib import request
 from urllib.request import urlopen
 from urllib.request import urlretrieve
 import os
+import sys
 from constants import PICS_FOLDER,NUMBER_OF_IMAGES_TO_PARSE,CURR_DIR
 PICS_FOLDER ='/pics'
 
@@ -12,6 +13,12 @@ def make_soup(url):
     response = request.urlopen(req)
     html=response.read()
     return BeautifulSoup(html)
+
+'''Show Progress bar'''
+def dlProgress(count, blockSize, totalSize):
+        percent = int(count*blockSize*100/totalSize)
+        sys.stdout.write("\r" + "...%d%%" % percent)
+        sys.stdout.flush()
 
 '''scrape images from /r/wallpapers'''
 def get_images(url):
@@ -35,10 +42,10 @@ def get_images(url):
     
     for image in image_links:
         path=CURR_DIR+ PICS_FOLDER
-        urlretrieve(image,os.path.join(path,image.split('/')[-1]))
+        filename = image.split('/')[-1]
+        if filename not in os.listdir(path):
+            urlretrieve(image,os.path.join(path,filename),reporthook=dlProgress)
+    
+    
     
 
-try:    
-    get_images("https://www.reddit.com/r/wallpapers");
-except ValueError as e: 
-    print("File could not be retrieved.", e)
