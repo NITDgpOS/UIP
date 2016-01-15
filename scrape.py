@@ -3,15 +3,17 @@ from urllib import request
 from urllib.request import urlopen
 from urllib.request import urlretrieve
 import os
-pics_folder ='/pics'
+from constants import PICS_FOLDER,NUMBER_OF_IMAGES_TO_PARSE,CURR_DIR
+PICS_FOLDER ='/pics'
+
+'''makes soup, that is basically parsing the html document'''
 def make_soup(url):
     req = request.Request(url=url,headers={'User-Agent':' Mozilla/5.0 (Windows NT 6.1; WOW64; rv:12.0) Gecko/20100101 Firefox/12.0'})
     response = request.urlopen(req)
     html=response.read()
-    #print (html)
-
     return BeautifulSoup(html)
 
+'''scrape images from /r/wallpapers'''
 def get_images(url):
     soup = make_soup(url) 
     #this makes a list of bs4 element tags
@@ -28,11 +30,11 @@ def get_images(url):
     for link in thumbnails:
         if link['href'].endswith(('jpg','png','jpeg')):
             image_links.append( link['href'])
-        if(len(image_links) == 15):
+        if(len(image_links) == NUMBER_OF_IMAGES_TO_PARSE):
             break
     
     for image in image_links:
-        path=os.getcwd()+ pics_folder
+        path=CURR_DIR+ PICS_FOLDER
         urlretrieve(image,os.path.join(path,image.split('/')[-1]))
     
 
