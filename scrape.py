@@ -42,6 +42,8 @@ def get_images(url):
     
     for image in image_links:
         path=CURR_DIR+ PICS_FOLDER
+        if not os.path.exists(path):
+            os.makedirs(path)
         filename = image.split('/')[-1]
         if filename not in os.listdir(path):
             urlretrieve(image,os.path.join(path,filename),reporthook=dlProgress)

@@ -1,6 +1,6 @@
 from  setWallpaper import BackgroundChanger
 import os
-from constants import CURR_DIR,PICS_FOLDER,WEBSITE
+from constants import CURR_DIR,PICS_FOLDER,WEBSITE,TIMEOUT
 import random
 import time
 from scrape import get_images 
@@ -22,7 +22,7 @@ class scheduler():
 
         while True:
             delta = self.deltaTime()
-            if delta>=30:
+            if delta>=TIMEOUT:
                 dir = CURR_DIR+PICS_FOLDER
                 filename = random.choice(os.listdir(dir))
                 path = os.path.join(dir, filename)
@@ -30,7 +30,7 @@ class scheduler():
                 self.time=time.time()
         
             else:
-                time.sleep(30-delta)
+                time.sleep(TIMEOUT-delta)
 
             
     def setStartTime(self,time):
