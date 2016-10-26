@@ -19,5 +19,5 @@ RUN
 To run the command cd into the project folder and type:
 
 ```
-python3 scheduler.py
+python3 UIP.py
 ``` 

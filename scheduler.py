@@ -43,6 +43,3 @@ class scheduler():
         if self.deltaTime()>30:
             return True
         return False
-
-
-scheduler()
