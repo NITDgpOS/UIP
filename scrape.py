@@ -46,8 +46,7 @@ def get_images(url):
             os.makedirs(path)
         filename = image.split('/')[-1]
         if filename not in os.listdir(path):
-            urlretrieve(image,os.path.join(path,filename),reporthook=dlProgress)
-    
-    
-    
-
+            try:
+                urlretrieve(image,os.path.join(path,filename),reporthook=dlProgress)
+            except:
+                pass
