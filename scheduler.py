@@ -1,4 +1,4 @@
-from  setWallpaper import BackgroundChanger
+from  setWallpaper import change_background
 import os
 from constants import CURR_DIR,PICS_FOLDER,WEBSITE,TIMEOUT
 import random
@@ -23,10 +23,10 @@ class scheduler():
         while True:
             delta = self.deltaTime()
             if delta>=TIMEOUT:
-                dir = CURR_DIR+PICS_FOLDER
+                dir = os.path.join(CURR_DIR,PICS_FOLDER)
                 filename = random.choice(os.listdir(dir))
                 path = os.path.join(dir, filename)
-                BackgroundChanger().change_background(path)
+                change_background(path)
                 self.time=time.time()
         
             else:

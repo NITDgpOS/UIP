@@ -1,15 +1,24 @@
-#!/usr/bin/python
-# -*- coding: utf-8 -*-
-from gi.repository import Gio
+import sys
 
+def change_background(self, filename):
+    if sys.platform.startswith('win32'):
+        change_windows_background(filename)
 
-class BackgroundChanger():
-        SCHEMA = 'org.gnome.desktop.background'
-        KEY = 'picture-uri'
+    elif sys.platform.startswith('linux'):
+        change_linux_background(filename)
 
-        def change_background(self, filename):
-                gsettings = Gio.Settings.new(self.SCHEMA)
-                print(gsettings.get_string(self.KEY))
-                print(gsettings.set_string(self.KEY, "file://" + filename))
-                gsettings.apply()
-                print(gsettings.get_string(self.KEY))
+def change_linux_background(self, filename):
+    from gi.repository import Gio
+
+    gsettings = Gio.Settings.new('org.gnome.desktop.background')
+    gsettings.set_string('picture-uri', "file://" + filename)
+    gsettings.apply()
+
+def change_windows_background(self, filename):
+    import ctypes
+
+    SPI_SETDESKWALLPAPER = 20 
+    ctypes.windll.user32.SystemParametersInfoA(SPI_SETDESKWALLPAPER, 
+                                               0, 
+                                               filename, 3)
+    
