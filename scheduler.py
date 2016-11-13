@@ -3,11 +3,16 @@ import os
 from constants import CURR_DIR,PICS_FOLDER,WEBSITE,TIMEOUT
 import random
 import time
-from scrape import get_images 
+from scrape import get_images
+from threading import Thread
 class scheduler():
     def __init__(self):
         print (time.time())
-        self.initFetch()
+        fetch = Thread(target=self.initFetch)
+        fetch.start()
+        while not os.listdir():
+            time.sleep(60)
+        self.change_random()
         self.setStartTime(time.time())
         self.changeCycle()
         
@@ -18,15 +23,18 @@ class scheduler():
         except ValueError as e:
             print("File could not be retrieved.", e)
 
-    def changeCycle(self):
+    def change_random(self):
+        directory = os.path.join(CURR_DIR,PICS_FOLDER)
+        filename = random.choice(os.listdir(directory))
+        path = os.path.join(directory, filename)
+        print("changing desktop wallpaper to: " ,path)
+        change_background(path)
 
+    def changeCycle(self):
         while True:
             delta = self.deltaTime()
             if delta>=TIMEOUT:
-                dir = os.path.join(CURR_DIR,PICS_FOLDER)
-                filename = random.choice(os.listdir(dir))
-                path = os.path.join(dir, filename)
-                change_background(path)
+                self.change_random(self)
                 self.time=time.time()
         
             else:
