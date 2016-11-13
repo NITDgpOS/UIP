@@ -4,8 +4,8 @@ from urllib.request import urlopen
 from urllib.request import urlretrieve
 import os
 import sys
-from constants import PICS_FOLDER,NUMBER_OF_IMAGES_TO_PARSE,CURR_DIR
-PICS_FOLDER ='/pics'
+from constants import PICS_FOLDER,NUMBER_OF_IMAGES_TO_PARSE,CURR_DIR, PICS_FOLDER
+
 
 '''makes soup, that is basically parsing the html document'''
 def make_soup(url):
@@ -41,7 +41,7 @@ def get_images(url):
             break
     
     for image in image_links:
-        path=CURR_DIR+ PICS_FOLDER
+        path=os.path.join(CURR_DIR,PICS_FOLDER)
         if not os.path.exists(path):
             os.makedirs(path)
         filename = image.split('/')[-1]
