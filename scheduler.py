@@ -34,7 +34,7 @@ class scheduler():
         while True:
             delta = self.deltaTime()
             if delta>=TIMEOUT:
-                self.change_random(self)
+                self.change_random()
                 self.time=time.time()
         
             else:
