@@ -10,7 +10,8 @@ class scheduler():
         print (time.time())
         fetch = Thread(target=self.initFetch)
         fetch.start()
-        while not os.listdir():
+        while not os.path.isdir(os.path.join(CURR_DIR,PICS_FOLDER)):
+            print('Downloading images..')
             time.sleep(60)
         self.change_random()
         self.setStartTime(time.time())
