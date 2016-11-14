@@ -10,7 +10,12 @@ Set Up
 To install the requirements first run the command
 
 ```
-pip install -r requirements.txt
+sudo pip install -r requirements.txt
+```
+if you're on a linux system you would need to install
+pygobject, to install on debian use:
+```
+sudo apt-get install python3-gi
 ```
 
 RUN
