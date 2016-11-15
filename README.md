@@ -26,3 +26,6 @@ To run the command cd into the project folder and type:
 ```
 python3 UIP.py
 ``` 
+Contact Us
+==========
+https://gitter.im/NIT-dgp/General
