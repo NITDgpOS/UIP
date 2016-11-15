@@ -18,7 +18,7 @@ pygobject, to install on debian use:
 sudo apt-get install python3-gi
 ```
 
-RUN
+Run
 ===
 
 To run the command cd into the project folder and type:
