@@ -6,19 +6,23 @@ import time
 from scrape import get_images
 from threading import Thread
 class scheduler():
-    def __init__(self):
+    def __init__(self, offline):
+        directory = os.path.join(CURR_DIR,PICS_FOLDER)
         print (time.time())
-        fetch = Thread(target=self.initFetch)
-        fetch.start()
-        while not os.path.isdir(os.path.join(CURR_DIR,PICS_FOLDER)):
-            print('Downloading images..')
-            time.sleep(60)
+        if not offline:
+            fetch = Thread(target=self.initFetch)
+            fetch.start()
+            while not os.path.isdir(os.path.join(CURR_DIR,PICS_FOLDER)):
+                print('Downloading images..')
+                time.sleep(60)
+        elif not os.path.exists(directory):
+                os.makedirs(directory)
         self.change_random()
         self.setStartTime(time.time())
         self.changeCycle()
-        
+
     def initFetch(self):
-        try:    
+        try:
             get_images(WEBSITE)
         except ValueError as e:
             print("File could not be retrieved.", e)
@@ -36,11 +40,11 @@ class scheduler():
             if delta>=TIMEOUT:
                 self.change_random()
                 self.time=time.time()
-        
+
             else:
                 time.sleep(TIMEOUT-delta)
 
-            
+
     def setStartTime(self,time):
         self.time=time
 
