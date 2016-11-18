@@ -7,7 +7,7 @@ if __name__ == "__main__":
           " images as your desktop wallpaper.")
     try:
         offline = False
-        if len(sys.argv) != 0 and str(sys.argv[1]) == '--offline':
+        if len(sys.argv) > 1 and str(sys.argv[1]) == '--offline':
             print("You have choosen to run UIP in offline mode.")
             offline = True
         else:
