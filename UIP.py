@@ -1,5 +1,5 @@
 import sys
-from scheduler import scheduler
+from uiplib.scheduler import scheduler
 
 if __name__ == "__main__":
     print("Hey this is UIP! you can use it to download"
