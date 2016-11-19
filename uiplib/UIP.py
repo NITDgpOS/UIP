@@ -30,4 +30,5 @@ def main():
                   " from reddit.")
         scheduler(args.offline)
     except KeyboardInterrupt:
+        print("Exiting UIP hope you had a nice time :)")
         sys.exit(0)
