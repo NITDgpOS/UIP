@@ -9,11 +9,13 @@ Set Up
 To install the requirements first run the command
 
 ```
+sudo python3 setup.py install
+```
+
+then
+
+```
 sudo pip install -r requirements.txt
-```
-There is no `sudo` in Windows. Hence, you should run the command:
-```
-pip install -r requirements.txt
 ```
 
 if you're on a mac, you would need to also run this command
@@ -27,14 +29,23 @@ pygobject, to install on debian use:
 sudo apt-get install python3-gi
 ```
 
+>Note: there is no sudo for windows as well as when you have root privelages. 
+Just run commands without sudo
+
+>Note: some setups use python instead of python3 and pip3 instead of pip
+
 Run
 ===
 
-To run the command cd into the project folder and type:
+To run just type
 
 ```
-python3 UIP.py
+UIP
 ```
+from anywhere inside the terminal/console.
+
+For help use `UIP --help`
+
 Contact Us
 ==========
 https://gitter.im/NIT-dgp/General

@@ -2,7 +2,7 @@ import sys, argparse, os, shutil
 from uiplib.constants import CURR_DIR, PICS_FOLDER
 from uiplib.scheduler import scheduler
 
-if __name__ == "__main__":
+def main():
     print("Hey this is UIP! you can use it to download"
           " images from reddit and also to schedule the setting of these"
           " images as your desktop wallpaper.")

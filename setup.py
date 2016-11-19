@@ -40,6 +40,13 @@ setup(
 
     #scripts to be run
     scripts=[
-        "UIP.py"
-    ]
+        "UIP"
+    ],
+
+    #binaries that can be called from anywhere
+    entry_points = {
+        "console_scripts": [
+                  "UIP = uiplib.UIP:main"]}
+
+
 )
