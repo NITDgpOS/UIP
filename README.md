@@ -43,8 +43,9 @@ https://gitter.im/NIT-dgp/General
 Screenshot
 ==========
 
-![alt text]( examples/UIP_screenshot.png )
-
+![alt text]( examples/UIP_screenshot.png )  
+![alt text]( examples/mac_wallpaper.png )  
+![alt text]( examples/windows_wallpaper.png )  
 HOW TO PACKAGE
 ==============
 To package into **source distribution**, run the following command
