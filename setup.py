@@ -18,7 +18,7 @@ setup(
     name="UIP",
 
     #Version (initial)
-    version="0.1.0",
+    version="0.0.1",
 
     #author details:
     author="uip-dev",
@@ -27,9 +27,9 @@ setup(
     #packages:
     packages=["uiplib"],
 
-    license="LICENSE.txt",
+    license="LICENSE",
 
-    url="example.com",
+    url="github.com/NIT-dgp/UIP",
 
     #description
     description="A library to get new wallpapers.",
