@@ -1,6 +1,5 @@
 from uiplib.setWallpaper import change_background
 import os
-from uiplib.constants import PICS_FOLDER, WEBSITE, TIMEOUT
 import random
 import time
 from uiplib.scrape import get_images
@@ -15,8 +14,10 @@ except ImportError:
 
 class scheduler():
 
-    def __init__(self, offline):
-        self.directory = PICS_FOLDER
+    def __init__(self, offline, pics_folder, timout, website):
+        self.website = website
+        self.timeout = timout
+        self.directory = pics_folder
         if not offline:
             fetch = Thread(target=self.initFetch)
             # all child threads need to be daemons to die upon main thread exit
@@ -40,7 +41,7 @@ class scheduler():
 
     def initFetch(self):
         try:
-            get_images(WEBSITE)
+            get_images(self.website, self.directory)
         except ValueError as e:
             print("File could not be retrieved.", e)
 
@@ -73,7 +74,7 @@ class scheduler():
         while True:
             if not self.kbhit():
                 delta = self.deltaTime()
-                if delta >= TIMEOUT:
+                if delta >= self.timeout:
                     self.change_random()
                     self.time = time.time()
             else:

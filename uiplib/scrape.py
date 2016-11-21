@@ -4,7 +4,7 @@ from urllib.request import urlopen
 from urllib.request import urlretrieve
 import os
 import sys
-from uiplib.constants import PICS_FOLDER,NUMBER_OF_IMAGES_TO_PARSE
+from uiplib.settings import NUMBER_OF_IMAGES_TO_PARSE
 
 
 def make_soup(url):
@@ -29,7 +29,7 @@ def dlProgress(count, blockSize, totalSize):
     sys.stdout.flush()
 
 
-def get_images(url):
+def get_images(url, directory):
     '''
     scrape images from /r/wallpapers
     '''
@@ -57,13 +57,12 @@ def get_images(url):
         p_url = soup.find("a", attrs={"rel" : "nofollow next"}).attrs['href']
 
     for image in image_links:
-        path = PICS_FOLDER
-        if not os.path.exists(path):
-            os.makedirs(path)
+        if not os.path.exists(directory):
+            os.makedirs(directory)
         filename = image.split('/')[-1]
-        if filename not in os.listdir(path):
+        if filename not in os.listdir(directory):
             try:
                 urlretrieve(image, os.path.join(
-                    path, filename), reporthook=dlProgress)
+                    directory, filename), reporthook=dlProgress)
             except:
                 pass

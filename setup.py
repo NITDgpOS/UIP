@@ -1,7 +1,8 @@
 from setuptools import setup
-from uiplib.constants import HOME_DIR
+from uiplib.settings import HOME_DIR, DEFAULT_PICS_FOLDER, settings_file_path
 import sys
 import os
+import json
 
 def get_contents(filename):
     file = open(filename, 'r').readlines()
@@ -13,6 +14,13 @@ def get_contents(filename):
 #Make Home Directory
 if not os.path.exists(HOME_DIR):
     os.makedirs(HOME_DIR)
+
+if not os.path.isfile(settings_file_path):
+    file_data = {'timeout' : 30*60,
+                 'pics-folder' : DEFAULT_PICS_FOLDER,
+                 'website' : ['https://www.reddit.com/r/wallpapers/']}
+    with open(settings_file_path,"w") as settings_file:
+        settings_file.write(json.dumps(file_data))
 
 requirements = []
 requirements += get_contents('requirements.txt')
