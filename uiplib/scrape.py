@@ -4,10 +4,7 @@ from urllib.request import urlopen
 from urllib.request import urlretrieve
 import os
 import sys
-from uiplib.constants import (PICS_FOLDER,
-                              NUMBER_OF_IMAGES_TO_PARSE,
-                              CURR_DIR,
-                              PICS_FOLDER)
+from uiplib.constants import PICS_FOLDER,NUMBER_OF_IMAGES_TO_PARSE
 
 
 def make_soup(url):
@@ -60,7 +57,7 @@ def get_images(url):
         p_url = soup.find("a", attrs={"rel" : "nofollow next"}).attrs['href']
 
     for image in image_links:
-        path = os.path.join(CURR_DIR, PICS_FOLDER)
+        path = PICS_FOLDER
         if not os.path.exists(path):
             os.makedirs(path)
         filename = image.split('/')[-1]

@@ -1,6 +1,6 @@
 from uiplib.setWallpaper import change_background
 import os
-from uiplib.constants import CURR_DIR, PICS_FOLDER, WEBSITE, TIMEOUT
+from uiplib.constants import PICS_FOLDER, WEBSITE, TIMEOUT
 import random
 import time
 from uiplib.scrape import get_images
@@ -16,20 +16,20 @@ except ImportError:
 class scheduler():
 
     def __init__(self, offline):
-        directory = os.path.join(CURR_DIR, PICS_FOLDER)
+        self.directory = PICS_FOLDER
         if not offline:
             fetch = Thread(target=self.initFetch)
             # all child threads need to be daemons to die upon main thread exit
             fetch.setDaemon(True)
             fetch.start()
-            while not ((os.path.isdir(os.path.join(CURR_DIR, PICS_FOLDER)) and
-                        os.listdir(directory) != [])):
+            while not ((os.path.isdir(self.directory) and
+                        os.listdir(self.directory) != [])):
                 print('Downloading images..')
                 time.sleep(60)
-        elif not os.path.exists(directory):
-            os.makedirs(directory)
+        elif not os.path.exists(self.directory):
+            os.makedirs(self.directory)
 
-        if os.listdir(directory) != []:
+        if os.listdir(self.directory) != []:
             print("You can wait for next wallpaper or skip this wallpaper"
                   " by just pressing enter.")
             self.change_random()
@@ -45,9 +45,8 @@ class scheduler():
             print("File could not be retrieved.", e)
 
     def change_random(self):
-        directory = os.path.join(CURR_DIR, PICS_FOLDER)
-        filename = random.choice(os.listdir(directory))
-        path = os.path.join(directory, filename)
+        filename = random.choice(os.listdir(self.directory))
+        path = os.path.join(self.directory, filename)
         print("changing desktop wallpaper to: ", path)
         change_background(path)
 

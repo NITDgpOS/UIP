@@ -21,8 +21,8 @@ def main():
         if args.flush:
             print("Deleting all downloaded wallpapers...")
             try:
-                shutil.rmtree(os.path.join(CURR_DIR, PICS_FOLDER))
-                os.mkdir(os.path.join(CURR_DIR, PICS_FOLDER))
+                shutil.rmtree(PICS_FOLDER)
+                os.mkdir(PICS_FOLDER)
             except FileNotFoundError:
                 pass
         if not args.offline:

@@ -1,5 +1,7 @@
 from setuptools import setup
+from uiplib.constants import HOME_DIR
 import sys
+import os
 
 def get_contents(filename):
     file = open(filename, 'r').readlines()
@@ -7,6 +9,10 @@ def get_contents(filename):
     for a in file:
         out.append(a.strip())
     return out
+
+#Make Home Directory
+if not os.path.exists(HOME_DIR):
+    os.makedirs(HOME_DIR)
 
 requirements = []
 requirements += get_contents('requirements.txt')
