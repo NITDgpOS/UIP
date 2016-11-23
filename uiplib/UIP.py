@@ -5,7 +5,8 @@ from uiplib.scheduler import scheduler
 def main():
     print("Hey this is UIP! you can use it to download"
           " images from reddit and also to schedule the setting of these"
-          " images as your desktop wallpaper.")
+          " images as your desktop wallpaper."
+          " \nPress ctrl-c to exit")
 
     settingsParser = ParseSettings()
     settings = settingsParser.settings
