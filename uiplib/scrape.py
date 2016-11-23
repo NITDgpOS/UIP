@@ -14,10 +14,13 @@ def make_soup(url):
     return BeautifulSoup(html, "html.parser")
 
 def make_json(url):
+    """
+    makes a dictionary out of a json file. If API like: URL/.json
+    """
     response = requests.get(url + '/.json', headers = {'User-agent': 'UIP'})
     json_file = response.text
     data = json.loads(json_file)
-    return data['data']
+    return data
 
 
 def dlProgress(count, blockSize, totalSize):
@@ -35,7 +38,7 @@ def get_images(url, directory, count):
     image_links = []
     no_of_images = int(count)
     page = make_json(url)
-    for sub in page['children']:
+    for sub in page['data']['children']: # structure of reddit API
         for image in sub['data']['preview']['images']:
             if(len(image_links)<no_of_images):
                 image_links.append(image['source']['url'])
@@ -45,7 +48,6 @@ def get_images(url, directory, count):
             os.makedirs(directory)
         filename = image.split('/')[-1]
         filename = filename[: filename.find('?')]
-        page = requests.get(image, stream = True)
         try:
             urlretrieve(image,
                         os.path.join(directory,filename),
