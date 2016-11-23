@@ -47,7 +47,7 @@ setup(
 
     license="LICENSE",
 
-    url="github.com/NIT-dgp/UIP",
+    url="https://www.github.com/NIT-dgp/UIP",
 
     #description
     description="A library to get new wallpapers.",
