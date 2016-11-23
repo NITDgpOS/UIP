@@ -1,22 +1,23 @@
 from bs4 import BeautifulSoup
-from urllib import request
-from urllib.request import urlopen
+import requests
 from urllib.request import urlretrieve
 import os
 import sys
-
+import json
 
 def make_soup(url):
     '''
     makes soup, that is basically parsing the html document
     '''
-    req = request.Request(url=url, headers={
-                          'User-Agent': ' Mozilla/5.0'
-                                        ' (Windows NT 6.1; WOW64; rv:12.0)'
-                                        ' Gecko/20100101 Firefox/12.0'})
-    response = request.urlopen(req)
-    html = response.read()
+    response = requests.get(url, headers = {'User-agent': 'UIP'})
+    html = response.content
     return BeautifulSoup(html, "html.parser")
+
+def make_json(url):
+    response = requests.get(url + '/.json', headers = {'User-agent': 'UIP'})
+    json_file = response.text
+    data = json.loads(json_file)
+    return data['data']
 
 
 def dlProgress(count, blockSize, totalSize):
@@ -24,7 +25,7 @@ def dlProgress(count, blockSize, totalSize):
     Show Progress bar
     '''
     percent = int(count*blockSize*100/totalSize)/2
-    sys.stdout.write("\r[%s%s]" % ('='*percent, ' '*(50-percent)))
+    sys.stdout.write("\r[%s%s]" % ('='*int(percent), ' '*(50-int(percent))))
     sys.stdout.flush()
 
 def get_images(url, directory, count):
@@ -32,37 +33,22 @@ def get_images(url, directory, count):
     scrape images from /r/wallpapers
     '''
     image_links = []
-    p_url = url
     no_of_images = int(count)
-
-    while len(image_links) < no_of_images:
-        soup = make_soup(p_url)
-        # this makes a list of bs4 element tags
-        thumbnails = soup.find_all("a", class_="thumbnail", href=True)
-
-        """Thumbnails in /r/wallpapers contain href to original
-        full-sized image."""
-
-        if not thumbnails:
-            print('No matching image found')
-            return
-
-        for link in thumbnails:
-            if link['href'].endswith(('jpg', 'png', 'jpeg', 'bmp')):
-                image_links.append(link['href'])
-            if(len(image_links) >= no_of_images):
-                break
-
-        # gets the link of next page
-        p_url = soup.find("a", attrs={"rel" : "nofollow next"}).attrs['href']
+    page = make_json(url)
+    for sub in page['children']:
+        for image in sub['data']['preview']['images']:
+            if(len(image_links)<no_of_images):
+                image_links.append(image['source']['url'])
 
     for image in image_links:
         if not os.path.exists(directory):
             os.makedirs(directory)
         filename = image.split('/')[-1]
-        if filename not in os.listdir(directory):
-            try:
-                urlretrieve(image, os.path.join(
-                    directory, filename), reporthook=dlProgress)
-            except:
-                pass
+        filename = filename[: filename.find('?')]
+        page = requests.get(image, stream = True)
+        try:
+            urlretrieve(image,
+                        os.path.join(directory,filename),
+                        reporthook = dlProgress)
+        except Exception as e:
+            print("Image cannot be downloaded: ",str(e))
