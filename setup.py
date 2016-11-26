@@ -36,8 +36,7 @@ setup(
     #Name of application:
     name="UIP",
 
-    #Version (initial)
-    version="0.0.1",
+    version="0.0.2",
 
     #author details:
     author="uip-dev",
