@@ -13,6 +13,15 @@ Examples of UIP wallpapers
 Set Up
 ======
 
+For Users:
+----------
+To install UIP, just run the command
+```
+sudo pip install UIP
+```
+
+For Testers & Developers:
+-------------------------
 To install the requirements first run the command
 
 ```
