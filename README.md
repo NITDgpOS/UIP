@@ -19,16 +19,6 @@ To install the requirements first run the command
 sudo python3 setup.py install
 ```
 
-if you're on a linux system you would need to install
-pygobject, to install on debian use:
-```
-sudo apt-get install python3-gi
-```
-to insall on arch use:
-```
-sudo pip install pygobject
-```
-
 >Note: there is no sudo for windows as well as when you have root privelages.
 Just run commands without sudo
 
