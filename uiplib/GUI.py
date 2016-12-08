@@ -59,45 +59,64 @@ class MainWindow:
 
     def create_ui(self):
         ''' Method to initialize UI '''
-        self.container = Frame(self.root)
-        self.container.grid(row=0, column=0)
+        self.notebook = Notebook(self.root)
+        self.notebook.pack()
+        self.create_general_tab()
+        self.create_settings_tab()
 
-        self.headerFrame = Frame(self.container)
-        self.mainFrame = Frame(self.container)
-        self.footerFrame = Frame(self.container)
+    def create_settings_tab(self):
+        settings_tab = Frame(self.notebook)
+        self.notebook.add(settings_tab, text="Settings")
+        mainFrame = Frame(settings_tab)
+        mainFrame.grid(row=0, column=0, sticky=W)
+        pics_folder_label = Label(mainFrame, text="Where pics are stored:")
+        pics_folder_label.grid(row=0, padx=10, pady=10)
+        input_browse = Entry(mainFrame)
+        input_browse.grid(row=0, column=1, padx=10, pady=10)
+        #self.general.grid(row=0, column=0)
 
-        self.headerFrame.grid(row=0, column=0, sticky=W+E+N)
-        self.mainFrame.grid(row=1, column=0, sticky=N+E+W+S)
-        self.footerFrame.grid(row=2, column=0, sticky=S+W+E)
+    def create_general_tab(self):
+        general_width = 1000
+        general_height = general_width*3/4
+        general = Frame(self.notebook,
+                        width=general_width,
+                        height=general_height)
+        self.notebook.add(general, text="General")
+        headerFrame = Frame(general)
+        mainFrame = Frame(general)
+        footerFrame = Frame(general)
 
-        self.nextButton = Button(self.mainFrame,
-                                 text=">",
-                                 command=self.next_wallpaper)
-        self.prevButton = Button(self.mainFrame,
-                                 text="<",
-                                 command=self.prev_wallpaper)
-        self.nextButton.pack(side=RIGHT, padx=5, pady=5)
-        self.prevButton.pack(side=LEFT, padx=5, pady=5)
+        headerFrame.grid(row=0, column=0, sticky=W+E+N)
+        mainFrame.grid(row=1, column=0, sticky=N+E+W+S)
+        footerFrame.grid(row=2, column=0, sticky=S+W+E)
 
-        self.downloadBtn = Button(self.footerFrame,
-                                  text="Download",
-                                  command=self.download)
-        self.setWallpaperBtn = Button(self.footerFrame,
-                                      text="Set Wallpaper",
-                                      command=self.set_wallpaper)
-        self.flushBtn = Button(self.footerFrame,
-                               text="Flush",
-                               command=self.flush)
-        self.setWallpaperBtn.pack(padx=5, pady=5)
-        self.downloadBtn.pack(padx=5, pady=5)
-        self.flushBtn.pack(padx=5, pady=5)
+        nextButton = Button(mainFrame,
+                            text=">",
+                            command=self.next_wallpaper)
+        prevButton = Button(mainFrame,
+                            text="<",
+                            command=self.prev_wallpaper)
+        nextButton.pack(side=RIGHT, padx=5, pady=5)
+        prevButton.pack(side=LEFT, padx=5, pady=5)
+
+        downloadBtn = Button(footerFrame,
+                             text="Download",
+                             command=self.download)
+        setWallpaperBtn = Button(footerFrame,
+                                 text="Set Wallpaper",
+                                 command=self.set_wallpaper)
+        flushBtn = Button(footerFrame,
+                          text="Flush",
+                          command=self.flush)
+        setWallpaperBtn.pack(padx=5, pady=5)
+        downloadBtn.pack(padx=5, pady=5)
+        flushBtn.pack(padx=5, pady=5)
 
         self.progress = 0
         self.progressBar = None
 
-        self.gallery = Gallery(self.mainFrame)
+        self.gallery = Gallery(mainFrame)
         self.gallery.pack(fill=BOTH)
-
         if len(self.images) != 0:
             self.gallery.set_image(self.images[self.index])
         else:
