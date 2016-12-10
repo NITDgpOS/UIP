@@ -1,6 +1,9 @@
 from uiplib.scheduler import scheduler
 from uiplib.setWallpaper import change_background
+from uiplib.utils import update_settings
 from tkinter import *
+from tkinter import filedialog
+from tkinter import messagebox
 from tkinter.ttk import *
 from PIL import Image, ImageTk
 from queue import Queue
@@ -65,15 +68,58 @@ class MainWindow:
         self.create_settings_tab()
 
     def create_settings_tab(self):
+        self.new_settings = {}
         settings_tab = Frame(self.notebook)
         self.notebook.add(settings_tab, text="Settings")
         mainFrame = Frame(settings_tab)
         mainFrame.grid(row=0, column=0, sticky=W)
+
+        # Add pics-folder setting
         pics_folder_label = Label(mainFrame, text="Where pics are stored:")
-        pics_folder_label.grid(row=0, padx=10, pady=10)
-        input_browse = Entry(mainFrame)
-        input_browse.grid(row=0, column=1, padx=10, pady=10)
-        #self.general.grid(row=0, column=0)
+        pics_folder_label.grid(row=0, padx=10, pady=10, sticky=W)
+        input_browse = Button(mainFrame,
+                              text="Browse",
+                              command=self.file_open_helper)
+        input_browse.grid(row=0, column=1, padx=10, pady=10, sticky=W)
+
+        # Add sites.
+        self.unsplash = BooleanVar()
+        self.reddit = BooleanVar()
+        sites_label = Label(mainFrame, text="Where to download from:")
+        sites_label.grid(row=1, padx=10, pady=1, sticky=W)
+        sites = ('unsplash', 'reddit')
+        unsplash_radio = Checkbutton(mainFrame,
+                                     text="Unsplash",
+                                     var=self.unsplash)
+        reddit_radio = Checkbutton(mainFrame,
+                                   text="Reddit",
+                                   var=self.reddit,
+                                   command=lambda: (
+                                       self.enable_subreddit(mainFrame)))
+        unsplash_radio.grid(row=1, column=1, padx=10, pady=10, sticky=W)
+        reddit_radio.grid(row=2, column=1, padx=10, pady=10, sticky=W)
+
+        # Timout
+        self.timeout_val = StringVar()
+        timeout_label = Label(mainFrame, text="Change Wallpaper in:")
+        timeout = Entry(mainFrame, textvariable=self.timeout_val)
+        timeout_label.grid(row=3, padx=10, pady=10, sticky=W)
+        timeout.grid(row=3, column=1, sticky=W)
+        minute_label = Label(mainFrame, text="minutes")
+        minute_label.grid(row=3, column=2, padx=10, pady=10, sticky=W)
+
+        # Number of images per site
+        self.count_val = StringVar()
+        count_label = Label(mainFrame, text="No. images per site:")
+        count = Entry(mainFrame, textvariable=self.count_val)
+        count_label.grid(row=4, padx=10, pady=10, sticky=W)
+        count.grid(row=4, column=1, sticky=W)
+
+        # Apply
+        apply_button = Button(mainFrame,
+                              text="Apply",
+                              command=self.handle_settings)
+        apply_button.grid(row=5, column=1, pady=20, sticky=W)
 
     def create_general_tab(self):
         general_width = 1000
@@ -160,6 +206,12 @@ class MainWindow:
         image = self.images[self.index]
         change_background(image)
 
+    def enable_subreddit(self, mainFrame):
+        sub_label = Label(mainFrame, text="Enter Subreddits")
+        sub_label.grid(row=1, column=2, padx=0, pady=0)
+        self.sub_entry = Text(mainFrame, height=10, width=20)
+        self.sub_entry.grid(row=2, column=2, padx=10, pady=10, sticky=W)
+
     def download(self):
         pass
 
@@ -171,3 +223,38 @@ class MainWindow:
         files = os.listdir(directory)
         self.images = [os.path.join(directory, file) for file in files
                        if (file.endswith('.png') or file.endswith('.jpg'))]
+
+    def file_open_helper(self):
+        directory = filedialog.askdirectory()
+        self.pics_folder = directory
+
+    def handle_settings(self):
+        try:
+            self.new_settings['pics-folder'] = self.pics_folder
+        except AttributeError as e:
+            messagebox.showwarning("AttributeError", "No pics folder selected")
+            return
+        sites = []
+        if self.unsplash.get():
+            sites.append("https://unsplash.com/new")
+        if self.reddit.get():
+            reddit_sites = self.retrieve_textbox_input(self.sub_entry).split()
+            sites.extend(reddit_sites)
+        self.new_settings['website'] = sites
+        try:
+            self.new_settings['timeout'] = int(self.timeout_val.get())*60
+        except ValueError:
+            messagebox.showwarning("AttributeError",
+                                   "Invalid value for timeout")
+            return
+        try:
+            self.new_settings['no-of-images'] = int(self.count_val.get())
+        except ValueError:
+            messagebox.showwarning("AttributeError",
+                                   "Invalid value for no of images")
+            return
+        update_settings(self.new_settings)
+
+    def retrieve_textbox_input(self, textbox):
+        text_input = textbox.get("1.0", END)
+        return text_input
