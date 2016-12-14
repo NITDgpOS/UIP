@@ -3,7 +3,7 @@ UIP Is Pretty
 
 UIP scrapes images from reddit and unsplash, and applies them as a wallpaper on your desktop(with configurable schedule). Works with Windows, Mac and Gtk based desktops on Linux.
 
-Examples of UIP wallpapers
+Examples Of UIP Wallpapers
 ==========================
 
 ![alt text]( examples/UIP_screenshot.png )
@@ -61,7 +61,7 @@ Contact Us
 https://gitter.im/NIT-dgp/General
 
 
-HOW TO PACKAGE
+How To Package
 ==============
 To package into **source distribution**, run the following command
 ```
@@ -79,7 +79,7 @@ How to run?
 UIP
 ```
 
-HOW TO CONTRIBUTE
+How To Contribute
 =================
 
 UIP is in its very early development stage, you can go over the issues on the
@@ -98,7 +98,7 @@ where short log is the area/filename where you make the change
 commit message is the very brief description of the change made by you and any
 other additional details go into the commit body.
 
-TESTING
+Testing
 =======
 
 While developing, to test, you should first install the test-requirements
