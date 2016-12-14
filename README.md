@@ -22,7 +22,12 @@ sudo pip install UIP
 
 For Testers & Developers:
 -------------------------
-To install the requirements first run the command
+First clone the source repository from github using the command
+
+```
+git clone https://github.com/NIT-dgp/UIP.git
+```
+To install the requirements run the command
 
 ```
 sudo python3 setup.py install
