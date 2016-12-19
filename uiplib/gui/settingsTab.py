@@ -3,6 +3,7 @@
 from tkinter import *
 from tkinter import filedialog
 from tkinter import messagebox
+from uiplib.settings import DEFAULT_SETTINGS
 
 from uiplib.utils.utils import check_sites, update_settings
 
@@ -81,7 +82,13 @@ def create_settings_tab(appObj):
     apply_button = Button(mainFrame,
                           text="Apply",
                           command=lambda: handle_settings(appObj))
-    apply_button.grid(row=6, column=1, pady=20, sticky=W)
+    apply_button.grid(row=6, column=1, pady=10, sticky=W)
+
+    # Reset
+    default_button = Button(mainFrame,
+                            text="Reset",
+                            command=lambda: update_settings(DEFAULT_SETTINGS))
+    default_button.grid(row=6, column=2, pady=10, sticky=W)
 
 
 def toggle_subreddit(appObj, mainFrame):

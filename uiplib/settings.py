@@ -6,6 +6,16 @@ import argparse
 HOME_DIR = os.path.join(os.path.expanduser("~"), '.uip')
 NUMBER_OF_IMAGES_TO_PARSE = 15
 DEFAULT_PICS_FOLDER = os.path.join(HOME_DIR, 'pics')
+DEFAULT_SETTINGS = {'timeout': 30*60,
+                    'no-of-images': NUMBER_OF_IMAGES_TO_PARSE,
+                    'pics-folder': DEFAULT_PICS_FOLDER,
+                    'website': ['https://unsplash.com/new',
+                                'https://www.reddit.com/r/wallpapers/',
+                                'https://www.reddit.com/r/wallpaper/',
+                                'https://www.reddit.com/r/EarthPorn/',
+                                'https://www.reddit.com/r/VillagePorn/',
+                                'https://www.reddit.com/r/pics/',
+                                'https://api.desktoppr.co/1/wallpapers', ]}
 
 settings_file_path = os.path.join(HOME_DIR, "settings.json")
 

@@ -12,7 +12,8 @@ from setuptools import setup
 from uiplib.settings import (HOME_DIR,
                              DEFAULT_PICS_FOLDER,
                              NUMBER_OF_IMAGES_TO_PARSE,
-                             settings_file_path)
+                             settings_file_path,
+                             DEFAULT_SETTINGS)
 
 
 def get_packages():
@@ -45,16 +46,8 @@ if not os.path.exists(DEFAULT_PICS_FOLDER):
     make_dir(DEFAULT_PICS_FOLDER)
 
 if not os.path.isfile(settings_file_path):
-    file_data = {'timeout': 30*60,
-                 'no-of-images': NUMBER_OF_IMAGES_TO_PARSE,
-                 'pics-folder': DEFAULT_PICS_FOLDER,
-                 'website': ['https://unsplash.com/new',
-                             'https://www.reddit.com/r/wallpapers/',
-                             'https://www.reddit.com/r/wallpaper/',
-                             'https://www.reddit.com/r/EarthPorn/',
-                             'https://www.reddit.com/r/VillagePorn/',
-                             'https://www.reddit.com/r/pics/',
-                             'https://api.desktoppr.co/1/wallpapers', ]}
+    file_data = DEFAULT_SETTINGS
+
     with open(settings_file_path, "w") as settings_file:
         settings_file.write(json.dumps(file_data, indent=4, sort_keys=True))
 
