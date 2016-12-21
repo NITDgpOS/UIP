@@ -87,7 +87,10 @@ def create_settings_tab(appObj):
     # Reset
     default_button = Button(mainFrame,
                             text="Reset",
-                            command=lambda: update_settings(DEFAULT_SETTINGS))
+                            command=lambda: (
+                                update_settings_view(appObj,
+                                                     mainFrame,
+                                                     DEFAULT_SETTINGS)))
     default_button.grid(row=6, column=2, pady=10, sticky=W)
 
 
@@ -145,6 +148,24 @@ def handle_settings(appObj):
                                "Invalid value for no of images")
         return
     update_settings(appObj.new_settings)
+
+
+def update_settings_view(appObj, mainFrame, settings):
+    """Update and view default settings when Reset is pressed."""
+    appObj.pics_folder.set(settings['pics-folder'])
+    appObj.sites_list = check_sites(settings)
+    appObj.unsplash.set(appObj.sites_list['unsplash'])
+    appObj.desktoppr.set(appObj.sites_list['desktoppr'])
+    if appObj.sites_list['reddit']:
+        appObj.reddit.set(True)
+        toggle_subreddit(appObj, mainFrame)
+    else:
+        appObj.reddit.set(False)
+        toggle_subreddit(appObj, mainFrame)
+    appObj.timeout_val.set(int(int(settings['timeout'])/60))
+    appObj.count_val.set(settings["no-of-images"])
+    appObj.root.update_idletasks()
+    update_settings(settings)
 
 
 def retrieve_textbox_input(appObj, textbox):
