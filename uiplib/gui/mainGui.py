@@ -9,6 +9,8 @@ from tkinter import messagebox
 from uiplib.gui import generalTab, settingsTab
 from uiplib.scheduler import scheduler
 from uiplib.utils.utils import flush_wallpapers
+from shutil import copy
+from uiplib.settings import DEFAULT_FAVOURITE_PICS_FOLDER
 
 
 class MainWindow:
@@ -101,10 +103,20 @@ class MainWindow:
     def update_images(self):
         """Method to get images from directory."""
         print("Updating Image List")
+        self.update_pics_from_fav_pics()
         directory = self.settings['pics-folder']
         files = os.listdir(directory)
         self.images = [os.path.join(directory, file) for file in files
                        if (file.endswith('.png') or file.endswith('.jpg'))]
+
+    def update_pics_from_fav_pics(self):
+        """Method to inherit the favourite wallpapers back into pics-folder."""
+        src_directory = DEFAULT_FAVOURITE_PICS_FOLDER
+        src_files = os.listdir(src_directory)
+        for file_name in src_files:
+            full_file_name = os.path.join(src_directory, file_name)
+            if (os.path.isfile(full_file_name)):
+                copy(full_file_name, self.settings['pics-folder'])
 
     def play(self):
         """Start scheduling wallpapers."""
@@ -119,3 +131,7 @@ class MainWindow:
                                               self.wallpaper)
             self.scheduler_object.setDaemon(True)
             self.scheduler_object.start()
+
+    def favourite(self):
+        """Method to copy the favourite image to favourite_pics folder."""
+        copy(self.images[self.index], DEFAULT_FAVOURITE_PICS_FOLDER)

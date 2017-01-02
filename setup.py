@@ -12,6 +12,7 @@ from setuptools import setup
 from uiplib.settings import (HOME_DIR,
                              DEFAULT_PICS_FOLDER,
                              NUMBER_OF_IMAGES_TO_PARSE,
+                             DEFAULT_FAVOURITE_PICS_FOLDER,
                              settings_file_path,
                              DEFAULT_SETTINGS)
 
@@ -44,6 +45,9 @@ if not os.path.exists(HOME_DIR):
 
 if not os.path.exists(DEFAULT_PICS_FOLDER):
     make_dir(DEFAULT_PICS_FOLDER)
+
+if not os.path.exists(DEFAULT_FAVOURITE_PICS_FOLDER):
+    make_dir(DEFAULT_FAVOURITE_PICS_FOLDER)
 
 if not os.path.isfile(settings_file_path):
     file_data = DEFAULT_SETTINGS

@@ -7,6 +7,7 @@ import argparse
 HOME_DIR = os.path.join(os.path.expanduser("~"), '.uip')
 NUMBER_OF_IMAGES_TO_PARSE = 15
 DEFAULT_PICS_FOLDER = os.path.join(HOME_DIR, 'pics')
+DEFAULT_FAVOURITE_PICS_FOLDER = os.path.join(HOME_DIR, 'favourite_pics')
 DEFAULT_SETTINGS = {'timeout': 30*60,
                     'no-of-images': NUMBER_OF_IMAGES_TO_PARSE,
                     'pics-folder': DEFAULT_PICS_FOLDER,

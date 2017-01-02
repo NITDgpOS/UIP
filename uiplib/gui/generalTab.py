@@ -55,3 +55,10 @@ def create_general_tab(appObj):
         text="Play",
         command=appObj.play)
     playBtn.pack(side=RIGHT, padx=5, pady=5)
+
+    # Add Favourite Button.
+    favBtn = Button(
+        footerFrame,
+        text="Favourite",
+        command=appObj.favourite)
+    favBtn.pack(side=RIGHT, padx=5, pady=5)
