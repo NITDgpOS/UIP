@@ -31,9 +31,6 @@ class MainWindow:
         self.queue = Queue()
         self.index = 0
         self.images = []
-        self.update_images()
-        # create the UI
-        self.create_ui()
         self.wallpaper = wallpaper
         self.scheduler_object = None
 
@@ -62,6 +59,7 @@ class MainWindow:
 
     def run(self):
         """Method that runs the main event loop."""
+        self.create_ui()
         self.update_ui()
         # run the main event loop of UI
         self.root.mainloop()
@@ -69,10 +67,8 @@ class MainWindow:
     def update_ui(self):
         """Method that updates UI periodically."""
         # update UI with data received
-        while self.queue and not self.queue.empty():
-            pass
-        # update UI after every 200ms
-        self.root.after(200, self.update_ui)
+        self.update_images()
+        generalTab.update_gallery(self)
 
     def next_wallpaper(self):
         """Preview next wallpaper."""
@@ -108,7 +104,7 @@ class MainWindow:
                                       self.settings['no-of-images']),
                                 daemon=True)
                 download_thread.start()
-            self.update_images()
+            self.update_ui()
         else:
             print("Not Flushing!")
 
@@ -140,7 +136,8 @@ class MainWindow:
                                               self.settings['no-of-images'],
                                               not (self.settings['service'] or
                                                    self.settings['ui']),
-                                              self.wallpaper)
+                                              self.wallpaper,
+                                              appObj=self)
             self.scheduler_object.setDaemon(True)
             self.scheduler_object.start()
 

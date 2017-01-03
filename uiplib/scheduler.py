@@ -21,7 +21,7 @@ class scheduler(Thread):
     """Class which schedules the wallpaper change."""
 
     def __init__(self, offline, pics_folder, timeout, website, count,
-                 skip_wallpaper, wallpaper):
+                 skip_wallpaper, wallpaper, appObj=None):
         """Initialize the scheduler configuration."""
         self.website = website
         self.timeout = timeout
@@ -30,6 +30,8 @@ class scheduler(Thread):
         self.skip_wallpaper = skip_wallpaper
         self.wallpaper = wallpaper
         self.offline = offline
+        self.appObj = appObj
+
         Thread.__init__(self)
 
     def change_random(self):
@@ -93,6 +95,7 @@ class scheduler(Thread):
             self.download_thread = Thread(
                             target=download,
                             args=(self.website, self.directory, self.count),
+                            kwargs={"appObj": self.appObj},
                             daemon=True)
             self.download_thread.start()
 

@@ -139,7 +139,7 @@ def get_image_links(url, count):
     return image_links
 
 
-def download_store_images(full_path, image_link):  # pragma no-cover
+def download_store_images(full_path, image_link):
     """Download and store the images to the specified path."""
     try:
         urlretrieve(image_link,
@@ -151,20 +151,23 @@ def download_store_images(full_path, image_link):  # pragma no-cover
         return False
 
 
-def get_images(url, directory, count):
+def get_images(url, directory, count, appObj=None):
     """Scrape images from a URL into a directory."""
     no_of_images = int(count)
     image_links = get_image_links(url, no_of_images)
     for image in image_links:
         download_store_images(os.path.join(directory, image[0]), image[1])
+        if appObj:  # pragma: no cover
+            print("\nDownloaded")
+            appObj.update_ui()
 
 
-def download(website, directory, count):
+def download(website, directory, count, appObj=None):  # pragma : no cover
     """Download images from the Internet."""
     print('Downloading images..')
     try:
         for site in website:
-            get_images(site, directory, count)
+            get_images(site, directory, count, appObj=appObj)
 
     except ValueError as e:
         print("File could not be retrieved.", e)
