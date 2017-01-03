@@ -55,10 +55,31 @@ class Gallery(Frame):
     def _blur_helper(self, event):
         """Helper to schedule the blur_image task."""
         if self._job:
-            self.appObj.after_cancel(self._job)
-        self._job = self.appObj.after(250, self.blur_image)
+            self.appObj.root.after_cancel(self._job)
+        self._job = self.appObj.root.after(250, self.blur_image)
 
     def blur_image(self):
         """Apply blur to the chosen image."""
         show = self.image.blur(self.slider.get())
         self.show_image(show)
+
+    def update(self):
+        """Update the gallery."""
+        appObj = self.appObj
+
+        gallery_remove(self.label)
+        gallery_remove(self.cv)
+        gallery_remove(self.slider)
+
+        if len(appObj.images) != 0:
+            self.set_image(
+                appObj.images[(appObj.index) % len(appObj.images)])
+        else:
+            self.show_error()
+
+
+def gallery_remove(object):
+    """Remove object from gallery if exists."""
+    if object:
+        object.pack_forget()
+        object = None

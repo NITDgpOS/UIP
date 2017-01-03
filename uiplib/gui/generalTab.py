@@ -42,12 +42,10 @@ def create_general_tab(appObj):
     appObj.progress = 0
     appObj.progressBar = None
 
-    appObj.gallery = Gallery(mainFrame, appObj.root)
+    appObj.gallery = Gallery(mainFrame, appObj)
     appObj.gallery.pack(fill=BOTH)
-    if len(appObj.images) != 0:
-        appObj.gallery.set_image(appObj.images[appObj.index])
-    else:
-        appObj.gallery.show_error()
+
+    appObj.gallery.update()
 
     # Add Play Button to start.
     playBtn = Button(
