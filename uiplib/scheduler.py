@@ -7,15 +7,14 @@ from select import select
 import random
 
 from uiplib.utils.utils import get_percentage
-from uiplib.scrape.onlineFetch import onlineFetch
-from uiplib.scrape.scrape import get_images
+from uiplib.scrape import download
 
 try:
     import msvcrt
 except ImportError:
     # not on windows
     pass
-from threading import Thread
+from threading import Thread, active_count
 
 
 class scheduler(Thread):
@@ -90,26 +89,13 @@ class scheduler(Thread):
 
     def run(self):
         """Begin Scheduling Wallpapers."""
-        if not self.offline:
-            try:
-                thread_nos = len(self.website)
-                for i in range(thread_nos):
-                    # Init the thread
-                    fetch_thread = onlineFetch(self.website[i],
-                                               self.directory, self.count)
-                    # die upon main thread exit
-                    fetch_thread.setDaemon(True)
+        if not self.offline and active_count() < 2:
+            self.download_thread = Thread(
+                            target=download,
+                            args=(self.website, self.directory, self.count),
+                            daemon=True)
+            self.download_thread.start()
 
-                    # Start new Threads
-                    fetch_thread.start()
-
-            except ValueError as e:
-                print("File could not be retrieved.", e)
-
-            while not ((os.path.isdir(self.directory) and
-                        os.listdir(self.directory) != [])):
-                print('Downloading images..')
-                time.sleep(60)
         elif not os.path.exists(self.directory):
             os.makedirs(self.directory)
 

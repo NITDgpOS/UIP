@@ -157,3 +157,14 @@ def get_images(url, directory, count):
     image_links = get_image_links(url, no_of_images)
     for image in image_links:
         download_store_images(os.path.join(directory, image[0]), image[1])
+
+
+def download(website, directory, count):
+    """Download images from the Internet."""
+    print('Downloading images..')
+    try:
+        for site in website:
+            get_images(site, directory, count)
+
+    except ValueError as e:
+        print("File could not be retrieved.", e)

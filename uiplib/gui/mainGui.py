@@ -5,12 +5,14 @@ from queue import Queue
 from tkinter import *
 from tkinter.ttk import *
 from tkinter import messagebox
+from threading import Thread, active_count
+from shutil import copy
 
 from uiplib.gui import generalTab, settingsTab
 from uiplib.scheduler import scheduler
 from uiplib.utils.utils import flush_wallpapers
-from shutil import copy
 from uiplib.settings import DEFAULT_FAVOURITE_PICS_FOLDER
+from uiplib.scrape import download
 
 
 class MainWindow:
@@ -98,6 +100,14 @@ class MainWindow:
                                 icon='warning')
         if ask == 'yes':
             flush_wallpapers(self.settings['pics-folder'])
+            if active_count() < 2:
+                download_thread = Thread(
+                                target=download,
+                                args=(self.settings['website'],
+                                      self.settings['pics-folder'],
+                                      self.settings['no-of-images']),
+                                daemon=True)
+                download_thread.start()
             self.update_images()
         else:
             print("Not Flushing!")
