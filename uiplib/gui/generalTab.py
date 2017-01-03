@@ -39,10 +39,7 @@ def create_general_tab(appObj):
     flushBtn.pack(side=RIGHT, padx=5, pady=5)
     setWallpaperBtn.pack(side=RIGHT, padx=5, pady=5)
 
-    appObj.progress = 0
-    appObj.progressBar = None
-
-    appObj.gallery = Gallery(mainFrame, appObj)
+    appObj.gallery = Gallery(mainFrame, appObj.root)
     appObj.gallery.pack(fill=BOTH)
 
     appObj.gallery.update()

@@ -1,12 +1,11 @@
 """Module that builds the Graphical User Interface."""
 
 import os
-from queue import Queue
+from shutil import copy
 from tkinter import *
 from tkinter.ttk import *
 from tkinter import messagebox
 from threading import Thread, active_count
-from shutil import copy
 
 from uiplib.gui import generalTab, settingsTab
 from uiplib.scheduler import scheduler
@@ -28,7 +27,6 @@ class MainWindow:
         # set window title
         self.root.title("UIP")
         # self.root.wm_iconbitmap() sets icon bitmap
-        self.queue = Queue()
         self.index = 0
         self.images = []
         self.wallpaper = wallpaper
@@ -40,22 +38,6 @@ class MainWindow:
         self.notebook.pack()
         generalTab.create_general_tab(self)
         settingsTab.create_settings_tab(self)
-
-    def show_progess(self, show):
-        """Method to display download progress."""
-        if show:
-            self.progressBar = Progressbar(self.headerFrame,
-                                           orient=HORIZONTAL,
-                                           length='300',
-                                           variable=self.progress,
-                                           mode='determinate')
-            self.progressBar.pack(fill=BOTH, padx=5, pady=5)
-        else:
-            self.progressBar = None
-
-    def push(self, x):
-        """Method to push onto UI Queue."""
-        self.queue.push(x)
 
     def run(self):
         """Method that runs the main event loop."""
