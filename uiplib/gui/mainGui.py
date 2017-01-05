@@ -76,12 +76,14 @@ class MainWindow:
         """Preview next wallpaper."""
         self.index = (self.index + 1) % len(self.images)
         self.gallery.set_image(self.images[self.index])
+        self.gallery.slider.set(0)
 
     def prev_wallpaper(self):
         """Preview previous wallpaper."""
         self.index = (self.index - 1 if self.index != 0
                       else len(self.images) - 1)
         self.gallery.set_image(self.images[self.index])
+        self.gallery.slider.set(0)
 
     def set_wallpaper(self):
         """Set the wallpaper which is being previewed."""
