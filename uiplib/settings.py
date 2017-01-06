@@ -11,6 +11,7 @@ DEFAULT_FAVOURITE_PICS_FOLDER = os.path.join(HOME_DIR, 'favourite_pics')
 DEFAULT_SETTINGS = {'timeout': 30*60,
                     'no-of-images': NUMBER_OF_IMAGES_TO_PARSE,
                     'pics-folder': DEFAULT_PICS_FOLDER,
+                    'fav-pics-folder': DEFAULT_FAVOURITE_PICS_FOLDER,
                     'website': ['https://unsplash.com/new',
                                 'https://www.reddit.com/r/wallpapers/',
                                 'https://www.reddit.com/r/wallpaper/',

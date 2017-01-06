@@ -19,16 +19,33 @@ def create_settings_tab(appObj):
     # Add pics-folder setting
     pics_folder_label = Label(mainFrame, text="Where pics are stored:")
     pics_folder_label.grid(row=0, padx=10, pady=10, sticky=W)
+    appObj.pics_folder = StringVar()
     input_browse = Button(mainFrame,
                           text="Browse",
-                          command=lambda: file_open_helper(appObj))
+                          command=lambda: file_open_helper(appObj,
+                                                           appObj.pics_folder))
     input_browse.grid(row=0, column=1, padx=10, pady=10, sticky=W)
-    appObj.pics_folder = StringVar()
     appObj.pics_folder.set(appObj.settings['pics-folder'])
     choice_label = Label(mainFrame, textvariable=appObj.pics_folder)
     choice_label.grid(row=0, column=2,
                       padx=10, pady=10,
                       sticky=W)
+
+    # Add fav-pics-folder setting
+    fav_pics_folder_label = Label(mainFrame, text="Where fav-pics are stored:")
+    fav_pics_folder_label.grid(row=1, padx=10, pady=10, sticky=W)
+    appObj.fav_pics_folder = StringVar()
+    input_browse1 = Button(mainFrame,
+                           text="Browse",
+                           command=lambda: (
+                               file_open_helper(appObj,
+                                                appObj.fav_pics_folder)))
+    input_browse1.grid(row=1, column=1, padx=10, pady=10, sticky=W)
+    appObj.fav_pics_folder.set(appObj.settings['fav-pics-folder'])
+    choice_label1 = Label(mainFrame, textvariable=appObj.fav_pics_folder)
+    choice_label1.grid(row=1, column=2,
+                       padx=10, pady=10,
+                       sticky=W)
 
     # Add sites.
     appObj.unsplash = BooleanVar()
@@ -43,7 +60,7 @@ def create_settings_tab(appObj):
     else:
         appObj.reddit.set(False)
     sites_label = Label(mainFrame, text="Where to download from:")
-    sites_label.grid(row=1, padx=10, pady=1, sticky=W)
+    sites_label.grid(row=2, padx=10, pady=1, sticky=W)
     unsplash_radio = Checkbutton(mainFrame,
                                  text="Unsplash",
                                  var=appObj.unsplash)
@@ -55,33 +72,33 @@ def create_settings_tab(appObj):
     desktoppr_radio = Checkbutton(mainFrame,
                                   text="Desktoppr",
                                   var=appObj.desktoppr)
-    unsplash_radio.grid(row=1, column=1, padx=10, pady=10, sticky=W)
-    reddit_radio.grid(row=2, column=1, padx=10, pady=10, sticky=W)
-    desktoppr_radio.grid(row=3, column=1, padx=10, pady=10, sticky=W)
+    unsplash_radio.grid(row=2, column=1, padx=10, pady=10, sticky=W)
+    reddit_radio.grid(row=3, column=1, padx=10, pady=10, sticky=W)
+    desktoppr_radio.grid(row=4, column=1, padx=10, pady=10, sticky=W)
 
     # Timout
     appObj.timeout_val = StringVar()
     appObj.timeout_val.set(int(int(appObj.settings['timeout'])/60))
     timeout_label = Label(mainFrame, text="Change Wallpaper in:")
     timeout = Entry(mainFrame, textvariable=appObj.timeout_val)
-    timeout_label.grid(row=4, padx=10, pady=10, sticky=W)
-    timeout.grid(row=4, column=1, sticky=W)
+    timeout_label.grid(row=5, padx=10, pady=10, sticky=W)
+    timeout.grid(row=5, column=1, sticky=W)
     minute_label = Label(mainFrame, text="minutes")
-    minute_label.grid(row=4, column=2, padx=10, pady=10, sticky=W)
+    minute_label.grid(row=5, column=2, padx=10, pady=10, sticky=W)
 
     # Number of images per site
     appObj.count_val = StringVar()
     appObj.count_val.set(appObj.settings["no-of-images"])
     count_label = Label(mainFrame, text="No. images per site:")
     count = Entry(mainFrame, textvariable=appObj.count_val)
-    count_label.grid(row=5, padx=10, pady=10, sticky=W)
-    count.grid(row=5, column=1, sticky=W)
+    count_label.grid(row=6, padx=10, pady=10, sticky=W)
+    count.grid(row=6, column=1, sticky=W)
 
     # Apply
     apply_button = Button(mainFrame,
                           text="Apply",
                           command=lambda: handle_settings(appObj))
-    apply_button.grid(row=6, column=1, pady=10, sticky=W)
+    apply_button.grid(row=7, column=1, pady=10, sticky=W)
 
     # Reset
     default_button = Button(mainFrame,
@@ -90,7 +107,7 @@ def create_settings_tab(appObj):
                                 update_settings_view(appObj,
                                                      mainFrame,
                                                      DEFAULT_SETTINGS)))
-    default_button.grid(row=6, column=2, pady=10, sticky=W)
+    default_button.grid(row=7, column=2, pady=10, sticky=W)
 
 
 def toggle_subreddit(appObj, mainFrame):
@@ -104,17 +121,17 @@ def toggle_subreddit(appObj, mainFrame):
             appObj.sub_entry = Text(mainFrame, height=10, width=20)
             for subreddit in appObj.sites_list['reddit']:
                 appObj.sub_entry.insert(INSERT, subreddit + " \n")
-            appObj.sub_label.grid(row=1, column=2, padx=0, pady=0)
-            appObj.sub_entry.grid(row=2, column=2, padx=10, pady=10, sticky=W)
+            appObj.sub_label.grid(row=2, column=2, padx=0, pady=0)
+            appObj.sub_entry.grid(row=3, column=2, padx=10, pady=10, sticky=W)
     else:
         appObj.sub_label.grid_remove()
         appObj.sub_entry.grid_remove()
 
 
-def file_open_helper(appObj):
-    """Open the dialog to choose where pictures are to be saved."""
+def file_open_helper(appObj, folder):
+    """Open the dialog to choose folder."""
     directory = filedialog.askdirectory()
-    appObj.pics_folder.set(directory)
+    folder.set(directory)
     appObj.root.update_idletasks()
 
 
@@ -122,8 +139,9 @@ def handle_settings(appObj):
     """Handler to update the settings file."""
     try:
         appObj.new_settings['pics-folder'] = appObj.pics_folder.get()
-    except AttributeError as e:
-        messagebox.showwarning("AttributeError", "No pics folder selected")
+        appObj.new_settings['fav-pics-folder'] = appObj.fav_pics_folder.get()
+    except AttributeError:
+        messagebox.showwarning("AttributeError", "Folder not selected")
         return
     sites = []
     if appObj.unsplash.get():
@@ -152,6 +170,7 @@ def handle_settings(appObj):
 def update_settings_view(appObj, mainFrame, settings):
     """Update and view default settings when Reset is pressed."""
     appObj.pics_folder.set(settings['pics-folder'])
+    appObj.fav_pics_folder.set(settings['fav-pics-folder'])
     appObj.sites_list = check_sites(settings)
     appObj.unsplash.set(appObj.sites_list['unsplash'])
     appObj.desktoppr.set(appObj.sites_list['desktoppr'])

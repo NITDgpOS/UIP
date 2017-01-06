@@ -113,7 +113,7 @@ class MainWindow:
 
     def update_pics_from_fav_pics(self):
         """Method to inherit the favourite wallpapers back into pics-folder."""
-        src_directory = DEFAULT_FAVOURITE_PICS_FOLDER
+        src_directory = self.settings['fav-pics-folder']
         src_files = os.listdir(src_directory)
         for file_name in src_files:
             full_file_name = os.path.join(src_directory, file_name)
@@ -136,4 +136,4 @@ class MainWindow:
 
     def favourite(self):
         """Method to copy the favourite image to favourite_pics folder."""
-        copy(self.images[self.index], DEFAULT_FAVOURITE_PICS_FOLDER)
+        copy(self.images[self.index], self.settings['fav-pics-folder'])
