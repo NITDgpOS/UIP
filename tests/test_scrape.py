@@ -1,8 +1,10 @@
 import unittest
 import tempfile
 import os
-from uiplib.scrape import scrape
+
 from bs4 import BeautifulSoup
+
+from uiplib import scrape
 
 
 class ScrapeTest(unittest.TestCase):

@@ -162,7 +162,7 @@ def get_images(url, directory, count, appObj=None):
             appObj.update_ui()
 
 
-def download(website, directory, count, appObj=None):  # pragma : no cover
+def download(website, directory, count, appObj=None):  # pragma: no cover
     """Download images from the Internet."""
     print('Downloading images..')
     try:
