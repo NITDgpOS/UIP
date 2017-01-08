@@ -44,8 +44,8 @@ class Gallery(Frame):
                                 command=self._blur_helper,
                                 label="Blur", showvalue=0)
             self.slider.pack()
-        self.image = uipImage
-        self.show_image(uipImage.image)
+        self.image = uip_image
+        self.show_image(uip_image.image)
 
     def show_image(self, pil_image):
         """Show the image on canvas."""
